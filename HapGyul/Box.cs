@@ -20,6 +20,12 @@ namespace HapGyul {
 			scolor = rnd.Next(3);
 			bcolor = rnd.Next(3);
 		}
+		public Box(Random rnd) {
+
+			shape = rnd.Next(3);
+			scolor = rnd.Next(3);
+			bcolor = rnd.Next(3);
+		}
 
 		public int getShape() {
 			return shape;

@@ -19,28 +19,65 @@ namespace HapGyul {
 	/// </summary>
 	public partial class MainWindow : Window {
 //		private int times = 0;
-//		private Box[,] board;
+		private Box[,] board = new Box[3, 3];
 //		private Box[] hap;
 		private Button[,] buttons = new Button[3, 3];
 
 		public MainWindow() {
 			InitializeComponent();
-
 			Init_Board();
 	}
 		private void Button_Click(object sender, RoutedEventArgs e) {
+
 		}
 
 		private void Init_Board() {
 			Random rnd = new Random();
 			for(int i = 0; i < 3; i++) {
 				for(int k = 0; k < 3; k++) {
-					buttons[i, k] = CreateButton(rnd.Next(3), rnd.Next(3), rnd.Next(3));
+					board[i, k] = new Box(rnd);
+					buttons[i, k] = CreateButton(board[i, k]);
 					PlayingBoard.Children.Add(buttons[i, k]);
 					Grid.SetColumn(buttons[i, k], k);
 					Grid.SetRow(buttons[i, k], i + 1);
 				}
 			}
+		}
+
+		private Button CreateButton(Box box) {
+			Button button = new Button();
+
+			button.Margin = new Thickness(5);
+
+			switch (box.getShape()) {
+				case 0:
+					button.Content = GetTriangle(box.getSColor());
+					break;
+				case 1:
+					button.Content = GetCircle(box.getSColor());
+					break;
+				case 2:
+					button.Content = GetSquare(box.getSColor());
+					break;
+				default:
+					break;
+			}
+
+			switch (box.getBColor()) {
+				case 0:
+					button.Background = Brushes.Beige;
+					break;
+				case 1:
+					button.Background = Brushes.Black;
+					break;
+				case 2:
+					button.Background = Brushes.White;
+					break;
+				default:
+					break;
+			}
+
+			return button;
 		}
 
 		private Polygon GetTriangle(int scolor) {
@@ -120,41 +157,6 @@ namespace HapGyul {
 			return polygon;
 		}
 
-		private Button CreateButton(int shape, int scolor, int bcolor) {
-			Button button = new Button();
-
-			button.Margin = new Thickness(5);
-
-			switch (shape) {
-				case 0:
-					button.Content = GetTriangle(scolor);
-					break;
-				case 1:
-					button.Content = GetCircle(scolor);
-					break;
-				case 2:
-					button.Content = GetSquare(scolor);
-					break;
-				default:
-					break;
-			}
-
-			switch (bcolor) {
-				case 0:
-					button.Background = Brushes.Beige;
-					break;
-				case 1:
-					button.Background = Brushes.Black;
-					break;
-				case 2:
-					button.Background = Brushes.White;
-					break;
-				default:
-					break;
-			}
-
-			return button;
-		}
 
 	}
 
